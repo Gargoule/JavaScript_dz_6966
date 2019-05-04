@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>dz_2_js1</title>
+</head>
+<body>
+ <script>
+/*1. Дан код:
+var a = 1, b = 1, c, d;
+c = ++a; alert(c);           // 2
+      потому что...сначала а=а+1 потом с=а
+    теперь а=2, c=2;
+     
+d = b++; alert(d);           // 1
+    ...сначала d=b; потом b=b+1
+    теперь d=1, b=2;
+    
+c = (2+ ++a); alert(c);      // 5
+    ...поскольку уже было а=2, то 
+    сперва а=а+1=3, а затем с=2+3=5
+    теперь а=3, c=5;
+    
+d = (2+ b++); alert(d);      // 4
+    ...выше b уже было присвоенно 2,
+    здесь d=2+2=4 и уже потом b=b+1=3
+    теперь d=4, b=3;
+    
+alert(a);                    // 3
+alert(b);                    // 3
+    ...по ходу выполнения кода были присвоены a=3, b=3 ...см.выше
+*/
+
+/*    2. Чему будет равен x в примере ниже? */
+    "use strict";
+     
+    let a = 2;
+    let x = 1 + (a *= 2);
+/*   ...сперва a=a*2, затем x=1+a
+    в итоге a=4, x=5;  */
+    alert('задание 2:   x = '+x);    
+
+/*  3. Объявить две целочисленные переменные a и b и задать им произвольные начальные значения. Затем написать скрипт, который работает по следующему принципу:
+если a и b положительные, вывести их разность;
+если а и b отрицательные, вывести их произведение;
+если а и b разных знаков, вывести их сумму; ноль можно считать положительным числом. */
+
+//задаю для а и b целые числа от -100 до 100
+    a = Math.floor(Math.random()*200-100);
+    let b = Math.floor(Math.random()*200-100);
+    
+    alert('задание 3: ' + 'если a = ' + a + ', b=' + b);
+    
+       if (a >= 0 && b >= 0) {
+//чтобы отнять меньшее от большего и заодно попробовать Тернарный оператор:
+           var sum=(a>=b)?(a-b):(b-a);
+           alert('разница: ' + sum);
+           
+       } else if (a < 0 && b < 0) {
+           alert('a x b = ' + (a*b));
+           
+       } else if ((a>=0 && b<0) || (a<0 && b>=0)) {
+           alert('a + b = ' + (a+b));
+       }
+
+/*  4. Реализовать основные 4 арифметические операции (+, -, /, *) в виде функций с двумя параметрами. Обязательно использовать оператор return. */
+     
+    function add(p, r) {
+        return p + r;
+    }
+    console.log('summa ' + add(3,4));
+    
+    function sub(p, r) {
+        return p - r;
+    }
+    console.log('subtract ' + sub(3,4));
+    
+    function dev(p, r) {
+        return p / r;
+    }
+    console.log('devision ' + dev(3,4));
+    
+    function mult(p, r) {
+        return p * r;
+    }
+    console.log('multiplication ' + mult(3,4));
+
+/*5. Реализовать функцию с тремя параметрами: function mathOperation(arg1, arg2, operation), где arg1, arg2 – значения аргументов, operation – строка с названием операции. В зависимости от переданного значения операции (использовать switch) выполнить одну из арифметических операций ...использовать функции из задания 4... и вернуть полученное значение. */
+     
+    function mathOperation(arg1, arg2, operation) {
+        switch (operation) {
+            case "+":
+                return add(arg1,arg2);
+            case "-":
+                return sub(arg1,arg2);
+            case "/":
+                return dev(arg1,arg2);
+            case "*":
+                return mult(arg1,arg2);
+            default:
+// ...я-то не понимаю, что такое throw или Error:
+                return Error("Операция " + operation + " не предусмотрена");
+        }
+    }
+    console.log(mathOperation(8,4, "+"));
+    console.log(mathOperation(8,4, "-"));
+    console.log(mathOperation(8,4, "/"));
+    console.log(mathOperation(8,4, "*"));
+    console.log(mathOperation(8,4, "lorem"));
+
+/* 6. Программа должна спросить у пользователя количество денег, которое он хочет положить в банк. Пользователь должен ввести целое число, а программа должна выдать соответствующее сообщение: 
+"Ваша сумма в 101 рубль успешно зачислена."
+Если пользователь введет любое другое целое число, программа также должна выдать соответствующее сообщение, в котором будет отображено это число, а также поставить верное окончание в слове "рубль". Для получения верного склонения слова (любого слова с числом) вам необходимо создать функцию. */
+    
+let rub = parseInt(prompt('введите сумму в рублях: ','33'));
+//    console.log(rub);
+//    проверяю, число ли ввели:
+    if(isNaN(rub) || rub < 0){
+        alert('это не подходит для вклада!');
+    } else if(rub==0){
+        alert('...не пустят на банкет, когда в кармане баксов нет');
+    } else {
+        alert('Ваша сумма в ' + rub + ' ' + declension(rub) + ' успешно зачислена');
+    }
+    
+function declension(rub) {
+    
+    let reminder = rub % 100;
+//    console.log(reminder);
+    if(reminder > 10 && reminder <20) {
+        return 'рублей';
+    } else {
+    reminder = rub % 10;
+    }
+//    console.log(reminder);
+    if(reminder == 1){
+        return 'рубль';
+    } else if(reminder == 0 || reminder > 4) {
+        return 'рублей';
+    } else {
+        return 'рубля';
+    }
+}
+
+//7    возведение в степень с помощью рекурсии:
+    function power(z,n) {
+        if(n==1) {return z;}
+        else {return power(z,n-1)*z;}
+    }
+    console.log(power(2,4));
+</script>
+    
+</body>
+</html>
